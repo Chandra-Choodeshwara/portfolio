@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chandra Choodeswara's Portfolio</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            transition: background-color 0.5s ease;
+            position: relative;
+            overflow-x: hidden;
+            background-image: radial-gradient(at 0% 0%, #2a2a4b, transparent 50%), radial-gradient(at 100% 100%, #1a1a2e, transparent 50%);
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .section-header {
+            border-bottom: 2px solid #5a557b;
+        }
+        .aspect-w-16 {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+        .aspect-h-9 {
+            position: relative;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+        .aspect-w-16 iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #messageBox {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            display: none;
+            text-align: center;
+        }
+        .color-input-container {
+            /* This class ensures the color input is hidden by default. */
+            display: none;
+        }
+        /* CSS for fade-in animation on scroll */
+        .animated-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animated-section.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* CSS for animated background blobs */
+        .bg-blob {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(100px);
+            border-radius: 50%;
+            transition: background-color 0.5s ease-out;
+            animation: moveBlob 20s infinite alternate;
+        }
+        .bg-blob.one {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 5%;
+            animation-duration: 25s;
+        }
+        .bg-blob.two {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 80%;
+            animation-duration: 22s;
+        }
+        .bg-blob.three {
+            width: 250px;
+            height: 250px;
+            bottom: 10%;
+            left: 30%;
+            animation-duration: 28s;
+        }
+        @keyframes moveBlob {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(50px, -20px); }
+            50% { transform: translate(100px, 50px); }
+            75% { transform: translate(-50px, -100px); }
+            100% { transform: translate(0, 0); }
+        }
+        /* CSS for the new borders on content sections */
+        .design-border {
+            border: 2px solid;
+            border-radius: 0.5rem; /* rounded-lg */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 2.5rem; /* p-10 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .design-border.about-me-border { border-color: #50fa7b; }
+        .design-border.models-border { border-color: #bd93f9; }
+        .design-border.games-border { border-color: #ff79c6; }
+        .design-border.resume-border { border-color: #ffb86c; }
+        .design-border.contact-border { border-color: #2dd4bf; }
+    </style>
+</head>
+<body class="flex flex-col items-center p-8 min-h-screen">
+    <!-- Animated background blobs -->
+    <div class="bg-blob one"></div>
+    <div class="bg-blob two"></div>
+    <div class="bg-blob three"></div>
+
+    <div id="messageBox" class="rounded-lg shadow-xl"></div>
+
+    <!-- Color Picker Button and Input -->
+    <div class="fixed top-4 right-4 z-50 flex items-center space-x-2">
+        <div id="colorInputContainer" class="color-input-container flex items-center space-x-2 bg-gray-800 p-2 rounded-lg shadow-lg">
+            <input type="color" id="colorCodeInput" value="#1a1a2e" class="w-10 h-10 rounded-full border-none outline-none" oninput="applyColor()">
+        </div>
+        <button onclick="toggleColorInput()" class="w-10 h-10 rounded-full bg-[#ff79c6] text-white text-xl font-bold flex items-center justify-center shadow-lg hover:bg-[#ff55a3] transition-colors duration-300 transform hover:scale-110">
+            #
+        </button>
+    </div>
+
+    <!-- Header Section -->
+    <header class="w-full text-center py-12">
+        <h1 class="text-5xl font-bold text-[#8be9fd]">Chandra Choodeswara's Portfolio</h1>
+        <p class="text-xl mt-2 text-gray-400">Showcasing projects created with Unreal Engine and Unity</p>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="w-full flex-grow">
+        <!-- About Me Section -->
+        <section class="my-12 px-4 animated-section design-border about-me-border" data-animated="true">
+            <h2 class="text-3xl font-semibold section-header pb-4 mb-8 text-[#50fa7b] text-center">About Me</h2>
+            <p class="text-lg leading-relaxed text-gray-300">
+                I am a passionate solo developer with a focus on end-to-end game development, including prototyping, systems design, and implementation using both Unreal Engine and Unity. This portfolio showcases some of my independent projects, highlighting my skills in 3D modeling, gameplay video production, and overall project management.
+            </p>
+        </section>
+
+        <!-- 3D Models Section with Image Upload -->
+        <section class="my-12 px-4 animated-section design-border models-border" data-animated="true">
+            <h2 class="text-3xl font-semibold section-header pb-4 mb-2 text-[#bd93f9] text-center">Digital Creations Portfolio</h2>
+            <p class="text-lg leading-relaxed mb-8 text-gray-400">
+                This section features a collection of 3D models and assets I have created, showcasing my skills in modeling, texturing, and asset creation for game environments and characters.
+            </p>
+            
+            <div class="flex justify-center">
+                <div id="modelsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Template for 3D model uploads -->
+                    <div id="modelTemplate" class="flex flex-col items-center model-upload-section w-full bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                        
+                        <!-- Title for the model -->
+                        <div class="w-full bg-gray-900 rounded-t-lg px-4 py-2">
+                            <input type="text" id="titleInput-1" class="w-full bg-transparent text-white placeholder-gray-500 outline-none text-center" placeholder="Enter title for this model..." oninput="updateTitle('1')">
+                        </div>
+                        
+                        <!-- Buttons to interact with the file input -->
+                        <div class="flex space-x-4 mb-4 mt-4 dev-mode-hidden">
+                            <button onclick="document.getElementById('imageInput-1').click()" class="bg-[#bd93f9] hover:bg-[#b088e8] text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-colors duration-300 transform hover:scale-105">
+                                Select Model Image
+                            </button>
+                            <button id="clearImageBtn-1" onclick="clearImage('1')" class="hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-colors duration-300 transform hover:scale-105">
+                                Clear Image
+                            </button>
+                        </div>
+
+                        <!-- Hidden file input for image upload -->
+                        <input type="file" id="imageInput-1" accept="image/*" class="hidden" onchange="handleImageUpload('1')">
+                        
+                        <!-- Image Viewer -->
+                        <img id="modelImage-1" src="https://placehold.co/800x600/333333/ffffff?text=Image+of+3D+Model+1" alt="3D Model Placeholder" class="w-full h-auto rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button to add more model sections -->
+            <div class="flex justify-center mt-8 space-x-4 dev-mode-hidden">
+                <button onclick="addModelSection()" class="bg-[#50fa7b] hover:bg-[#47d16a] text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-colors duration-300 transform hover:scale-105">
+                    +
+                </button>
+                <button onclick="removeModelSection()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-colors duration-300 transform hover:scale-105">
+                    -
+                </button>
+            </div>
+        </section>
+
+
+        <!-- Itch.io Game Embeds Section -->
+        <section class="my-12 px-4 animated-section design-border games-border" data-animated="true">
+            <h2 class="text-3xl font-semibold section-header pb-4 mb-8 text-[#ff79c6] text-center">My Games</h2>
+            <div class="flex flex-col space-y-12 items-center">
+                <!-- Placeholder for Itch.io Game 1 -->
+                <div class="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6">
+                    <h3 class="text-xl font-bold text-[#f1fa8c] mb-4 text-center">Angry Birds Clone</h3>
+                    <div class="aspect-w-16 aspect-h-9 mb-4">
+                        <!-- Replace this iframe with your itch.io embed code for Game 1 -->
+                        <iframe frameborder="0" src="https://itch.io/embed-upload/PLACEHOLDER_ID_1?color=333333" allowfullscreen="true" width="100%"></iframe>
+                    </div>
+                </div>
+
+                <!-- Placeholder for Itch.io Game 2 -->
+                <div class="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6">
+                    <h3 class="text-xl font-bold text-[#f1fa8c] mb-4 text-center">Topdown 2d shooter</h3>
+                    <div class="aspect-w-16 aspect-h-9 mb-4">
+                        <!-- Replace this iframe with your itch.io embed code for Game 2 -->
+                        <iframe frameborder="0" src="https://itch.io/embed-upload/PLACEHOLDER_ID_2?color=333333" allowfullscreen="true" width="100%"></iframe>
+                    </div>
+                </div>
+
+                <!-- Placeholder for Itch.io Game 3 -->
+                <div class="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6">
+                    <h3 class="text-xl font-bold text-[#f1fa8c] mb-4 text-center">Flappy bird clone</h3>
+                    <div class="aspect-w-16 aspect-h-9 mb-4">
+                        <!-- Replace this iframe with your itch.io embed code for Game 3 -->
+                        <iframe frameborder="0" src="https://itch.io/embed-upload/PLACEHOLDER_ID_3?color=333333" allowfullscreen="true" width="100%"></iframe>
+                    </div>
+                </div>
+
+                <!-- Placeholder for Itch.io Game 4 -->
+                <div class="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6">
+                    <h3 class="text-xl font-bold text-[#f1fa8c] mb-4 text-center">fps shooter</h3>
+                    <div class="aspect-w-16 aspect-h-9 mb-4">
+                        <!-- Replace this iframe with your itch.io embed code for Game 4 -->
+                        <iframe frameborder="0" src="https://itch.io/embed-upload/PLACEHOLDER_ID_4?color=333333" allowfullscreen="true" width="100%"></iframe>
+                    </div>
+                </div>
+                
+                <!-- Placeholder for Itch.io Game 5 -->
+                <div class="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6">
+                    <h3 class="text-xl font-bold text-[#f1fa8c] mb-4 text-center">3d platformer</h3>
+                    <div class="aspect-w-16 aspect-h-9 mb-4">
+                        <!-- Replace this iframe with your itch.io embed code for Game 5 -->
+                        <iframe frameborder="0" src="https://itch.io/embed-upload/PLACEHOLDER_ID_5?color=333333" allowfullscreen="true" width="100%"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resume Section -->
+        <section class="my-12 px-4 animated-section design-border resume-border" data-animated="true">
+            <h2 class="text-3xl font-semibold section-header pb-4 mb-8 text-[#ffb86c] text-center">My Resume</h2>
+            <div class="flex flex-col items-center space-y-6">
+                <p class="text-lg text-center text-gray-400">
+                    Upload your resume as a PDF file. It will be saved in your browser and will be visible the next time you visit this page.
+                </p>
+
+                <!-- File Upload Option -->
+                <div id="pdfDropzone" class="w-full max-w-xl">
+                    <div onclick="document.getElementById('pdfInput').click()" class="w-full max-w-xl p-10 border-2 border-dashed border-[#ffb86c] rounded-lg flex flex-col items-center justify-center cursor-pointer transition-colors duration-200 hover:bg-[#ffb86c] hover:bg-opacity-10">
+                        <svg class="w-12 h-12 text-[#ffb86c] mb-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 01-2 2v10a2 2 0 012 2h12a2 2 0 012-2V5a2 2 0 01-2-2H4zm12 12H4l4-8 3 6 4-4v5zm2-11a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="text-sm text-gray-400 font-medium text-center">Click or drag a PDF file here</p>
+                        <p class="text-xs text-gray-500 mt-1">File size should not exceed 10MB</p>
+                    </div>
+                </div>
+
+                <!-- Hidden file input for resume upload -->
+                <input type="file" id="pdfInput" accept=".pdf" class="hidden" onchange="handlePdfUpload()">
+                
+                <!-- PDF Viewer -->
+                <iframe id="pdfViewer" class="hidden w-full h-[600px] rounded-lg shadow-xl" title="PDF Viewer"></iframe>
+
+                <!-- Developer Mode Button -->
+                <button id="clearPdfBtn" onclick="clearPdf()" class="dev-mode-hidden hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-colors duration-300 transform hover:scale-105">
+                    Clear Resume
+                </button>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="my-12 px-4 animated-section design-border contact-border" data-animated="true">
+            <h2 class="text-3xl font-semibold section-header pb-4 mb-8 text-[#2dd4bf] text-center">Contact Me</h2>
+            <div class="flex flex-col items-center space-y-4 text-gray-300">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-[#2dd4bf]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.774a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.26 18 2 12.74 2 6V3z" clip-rule="evenodd"></path></svg>
+                    <span class="text-lg font-medium">Phone: 6380488836</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-[#2dd4bf]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                    <span class="text-lg font-medium">Email: sandrachoodeswara@gmail.com</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-6 h-6 text-[#2dd4bf]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.057 4.058a1.5 1.5 0 012.886 0L12.186 9.5a.5.5 0 010 .866l-4.243 4.243a.5.5 0 01-.866 0L5.057 10.427a1.5 1.5 0 010-2.886L10 5.427a.5.5 0 01.866 0l4.243 4.243a.5.5 0 010 .866L14.943 14a1.5 1.5 0 01-2.886 0L7.814 8.5a.5.5 0 010-.866L5.057 4.058z" clip-rule="evenodd"></path></svg>
+                    <span class="text-lg font-medium text-center">Address: 5/768-a Muneeshwara Nagar Extn, 3rd Cross, Hosur, Tamil Nadu, India</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 mt-12 border-t-2 border-[#5a557b] animated-section" data-animated="true">
+        <p class="text-sm text-gray-500">
+            &copy; 2025 Chandra Choodeswara's Portfolio. All rights reserved.
+        </p>
+    </footer>
+
+    <!-- JavaScript to handle file upload and display -->
+    <script>
+        // Set this to `true` to hide all developer-specific UI elements.
+        const isPublicMode = true;
+
+        let modelCount = 1;
+
+        function showMessage(message) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        }
+
+        /**
+         * Converts an HSL color value to a Hexadecimal string.
+         * @param {number} h The hue value (0-360).
+         * @param {number} s The saturation value (0-100).
+         * @param {number} l The lightness value (0-100).
+         * @returns {string} The hexadecimal color string.
+         */
+        function hslToHex(h, s, l) {
+            s /= 100;
+            l /= 100;
+
+            let c = (1 - Math.abs(2 * l - 1)) * s,
+                x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+                m = l - c / 2,
+                r = 0,
+                g = 0,
+                b = 0;
+
+            if (0 <= h && h < 60) {
+                r = c; g = x; b = 0;
+            } else if (60 <= h && h < 120) {
+                r = x; g = c; b = 0;
+            } else if (120 <= h && h < 180) {
+                r = 0; g = c; b = x;
+            } else if (180 <= h && h < 240) {
+                r = 0; g = x; b = c;
+            } else if (240 <= h && h < 300) {
+                r = x; g = 0; b = c;
+            } else if (300 <= h && h < 360) {
+                r = c; g = 0; b = x;
+            }
+            // Having obtained RGB from [0, 1] scale, convert to [0, 255]
+            r = Math.round((r + m) * 255).toString(16).padStart(2, '0');
+            g = Math.round((g + m) * 255).toString(16).padStart(2, '0');
+            b = Math.round((b + m) * 255).toString(16).padStart(2, '0');
+
+            return "#" + r + g + b;
+        }
+
+        /**
+         * Converts a hexadecimal color string to an HSL array.
+         * @param {string} hex The hexadecimal color string.
+         * @returns {number[]} An array containing [h, s, l] values.
+         */
+        function hexToHsl(hex) {
+            let r = 0, g = 0, b = 0;
+            if (hex.length == 4) {
+                r = parseInt(hex[1] + hex[1], 16);
+                g = parseInt(hex[2] + hex[2], 16);
+                b = parseInt(hex[3] + hex[3], 16);
+            } else if (hex.length == 7) {
+                r = parseInt(hex.substring(1, 3), 16);
+                g = parseInt(hex.substring(3, 5), 16);
+                b = parseInt(hex.substring(5, 7), 16);
+            }
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            let cmin = Math.min(r, g, b),
+                cmax = Math.max(r, g, b),
+                delta = cmax - cmin,
+                h = 0,
+                s = 0,
+                l = 0;
+
+            if (delta == 0) h = 0;
+            else if (cmax == r) h = ((g - b) / delta) % 6;
+            else if (cmax == g) h = (b - r) / delta + 2;
+            else h = (r - g) / delta + 4;
+            h = Math.round(h * 60);
+            if (h < 0) h += 360;
+            l = (cmax + cmin) / 2;
+            s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+            return [h, s * 100, l * 100];
+        }
+
+        function changeBackground(color) {
+            document.body.style.backgroundColor = color;
+            
+            // Calculate luminance to determine text color
+            const hex = color.startsWith('#') ? color.slice(1) : color;
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            
+            const textColor = luminance > 0.5 ? '#1a1a2e' : '#e0e0e0';
+            const paragraphColor = luminance > 0.5 ? '#333' : '#a0a0a0';
+
+            // Change the main body text color
+            document.body.style.color = textColor;
+
+            // Change the header colors
+            const headers = document.querySelectorAll('h1, h2, h3');
+            headers.forEach(header => {
+                header.style.color = textColor;
+            });
+
+            // Change the paragraph and span colors
+            const paragraphs = document.querySelectorAll('p, span');
+            paragraphs.forEach(p => {
+                p.style.color = paragraphColor;
+            });
+
+            // Adjust blob colors based on the new background color
+            const blobs = document.querySelectorAll('.bg-blob');
+            const [h, s, l] = hexToHsl(color);
+
+            // Generate a palette with a slight hue shift
+            const colors = [
+                hslToHex((h + 60) % 360, 50, 60),
+                hslToHex((h + 120) % 360, 50, 60),
+                hslToHex((h + 180) % 360, 50, 60)
+            ];
+
+            // Apply new colors to the blobs
+            if (blobs.length > 0) blobs[0].style.backgroundColor = colors[0];
+            if (blobs.length > 1) blobs[1].style.backgroundColor = colors[1];
+            if (blobs.length > 2) blobs[2].style.backgroundColor = colors[2];
+        }
+
+        function toggleColorInput() {
+            const container = document.getElementById('colorInputContainer');
+            if (container.classList.contains('color-input-container')) {
+                container.classList.remove('color-input-container');
+                container.classList.add('flex');
+            } else {
+                container.classList.add('color-input-container');
+                container.classList.remove('flex');
+            }
+        }
+
+        function applyColor() {
+            const colorInput = document.getElementById('colorCodeInput');
+            const color = colorInput.value;
+            changeBackground(color);
+        }
+
+        function addModelSection() {
+            modelCount++;
+            const modelsContainer = document.getElementById('modelsContainer');
+            const template = document.getElementById('modelTemplate');
+            const newSection = template.cloneNode(true);
+            
+            newSection.id = `modelTemplate-${modelCount}`;
+            
+            const titleInput = newSection.querySelector('input[type="text"]');
+            titleInput.id = `titleInput-${modelCount}`;
+            titleInput.oninput = () => updateTitle(modelCount);
+            
+            const imageInput = newSection.querySelector('input[type="file"]');
+            imageInput.id = `imageInput-${modelCount}`;
+            imageInput.onchange = () => handleImageUpload(modelCount);
+            
+            const selectButton = newSection.querySelector('button');
+            selectButton.onclick = () => document.getElementById(`imageInput-${modelCount}`).click();
+            
+            const clearButton = newSection.querySelector('#clearImageBtn-1');
+            clearButton.id = `clearImageBtn-${modelCount}`;
+            clearButton.onclick = () => clearImage(modelCount);
+            
+            const modelImage = newSection.querySelector('img');
+            modelImage.id = `modelImage-${modelCount}`;
+            modelImage.src = `https://placehold.co/800x600/333333/ffffff?text=Image+of+3D+Model+${modelCount}`;
+            
+            // Prepend the new section to the container
+            modelsContainer.prepend(newSection);
+        }
+
+        function removeModelSection() {
+            const modelsContainer = document.getElementById('modelsContainer');
+            if (modelsContainer.children.length > 1) {
+                modelsContainer.removeChild(modelsContainer.lastElementChild);
+                modelCount--;
+            }
+        }
+        
+        function updateTitle(modelId) {
+            const titleInput = document.getElementById(`titleInput-${modelId}`);
+            const titleElement = document.getElementById(`modelTitle-${modelId}`);
+            if (titleElement) {
+                titleElement.textContent = titleInput.value || "Image of 3D Model " + modelId;
+            }
+        }
+
+        function handleImageUpload(modelId) {
+            const fileInput = document.getElementById(`imageInput-${modelId}`);
+            const modelImage = document.getElementById(`modelImage-${modelId}`);
+            const clearImageBtn = document.getElementById(`clearImageBtn-${modelId}`);
+            const file = fileInput.files[0];
+
+            if (file) {
+                if (file.type.startsWith('image/')) {
+                    const fileURL = URL.createObjectURL(file);
+                    modelImage.src = fileURL;
+                    clearImageBtn.classList.remove('hidden');
+                } else {
+                    showMessage('Please select an image file.');
+                    fileInput.value = ''; // Reset the input
+                    clearImage(modelId);
+                }
+            }
+        }
+
+        function clearImage(modelId) {
+            const imageInput = document.getElementById(`imageInput-${modelId}`);
+            const modelImage = document.getElementById(`modelImage-${modelId}`);
+            const clearImageBtn = document.getElementById(`clearImageBtn-${modelId}`);
+            const titleInput = document.getElementById(`titleInput-${modelId}`);
+            
+            modelImage.src = `https://placehold.co/800x600/333333/ffffff?text=Image+of+3D+Model+${modelId}`;
+            clearImageBtn.classList.add('hidden');
+            imageInput.value = '';
+            titleInput.value = '';
+        }
+
+        function handlePdfUpload() {
+            const fileInput = document.getElementById('pdfInput');
+            const pdfViewer = document.getElementById('pdfViewer');
+            const file = fileInput.files[0];
+            const pdfDropzone = document.getElementById('pdfDropzone');
+
+            if (file) {
+                if (file.type === 'application/pdf' && file.size <= 10485760) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const fileData = e.target.result;
+                        localStorage.setItem('savedResume', fileData);
+                        pdfViewer.src = fileData;
+                        pdfViewer.classList.remove('hidden');
+                        pdfDropzone.classList.add('hidden');
+                        showMessage('Resume uploaded successfully!');
+                        document.getElementById('clearPdfBtn').classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                } else if (file.type !== 'application/pdf') {
+                    showMessage('Please upload a PDF file.');
+                    fileInput.value = '';
+                } else {
+                    showMessage('File size exceeds 10MB limit.');
+                    fileInput.value = '';
+                }
+            }
+        }
+
+        function clearPdf() {
+            localStorage.removeItem('savedResume');
+            const pdfViewer = document.getElementById('pdfViewer');
+            const pdfDropzone = document.getElementById('pdfDropzone');
+            
+            pdfViewer.src = '';
+            pdfViewer.classList.add('hidden');
+            pdfDropzone.classList.remove('hidden');
+            document.getElementById('clearPdfBtn').classList.add('hidden');
+            showMessage('Resume cleared successfully!');
+        }
+
+        function loadSavedPdf() {
+            const savedPdf = localStorage.getItem('savedResume');
+            if (savedPdf) {
+                const pdfViewer = document.getElementById('pdfViewer');
+                const pdfDropzone = document.getElementById('pdfDropzone');
+                pdfViewer.src = savedPdf;
+                pdfViewer.classList.remove('hidden');
+                pdfDropzone.classList.add('hidden');
+                document.getElementById('clearPdfBtn').classList.remove('hidden');
+            }
+        }
+
+        function setupAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animated-section').forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        window.onload = function() {
+            setupAnimations();
+            
+            // Set initial blob colors
+            changeBackground(document.getElementById('colorCodeInput').value);
+
+            // Load saved PDF on page load
+            loadSavedPdf();
+
+            // Hide developer-mode buttons if isPublicMode is true
+            if (isPublicMode) {
+                const devModeElements = document.querySelectorAll('.dev-mode-hidden');
+                devModeElements.forEach(el => el.classList.add('hidden'));
+
+                // Hide model sections with placeholder images in public mode
+                const modelSections = document.querySelectorAll('.model-upload-section');
+                modelSections.forEach(section => {
+                    const img = section.querySelector('img');
+                    // Check if the image source is the default placeholder
+                    if (img && img.src.includes('placehold.co')) {
+                        section.classList.add('hidden');
+                    }
+                });
+            }
+        };
+    </script>
+
+</body>
+</html>
